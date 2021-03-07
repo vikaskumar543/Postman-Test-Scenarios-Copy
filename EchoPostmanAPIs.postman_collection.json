@@ -1,0 +1,138 @@
+{
+	"info": {
+		"_postman_id": "bbb57870-0ce6-4709-83fc-c732cea7875d",
+		"name": "Echo Postman APIs",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GenerateToken",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Your test name\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    var tokenValue = jsonData.args.token;\r",
+							"    console.log(tokenValue);\r",
+							"    pm.expect(tokenValue).is.not.empty;\r",
+							"    pm.globals.set(\"MyToken\", tokenValue);\r",
+							"});\r",
+							"\r",
+							"postman.setNextRequest(\"UpdateStatus\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/post?token={{$guid}}",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"post"
+					],
+					"query": [
+						{
+							"key": "token",
+							"value": "{{$guid}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateStatus",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var currentToken = pm.globals.get(\"MyToken\");\r",
+							"console.log(\"Fetching token value from global variables : \" + currentToken);\r",
+							"\r",
+							"var statusValue = \"Test post staus for same token \" + \"{{$timestamp}}\";\r",
+							"pm.globals.set(\"Post status value\", statusValue);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"postman.setNextRequest(\"GetPostStatusValues\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/post?token={{MyToken}}&status={{Post status value}}",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"post"
+					],
+					"query": [
+						{
+							"key": "token",
+							"value": "{{MyToken}}"
+						},
+						{
+							"key": "status",
+							"value": "{{Post status value}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetPostStatusValues",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jasonData = pm.response.json();\r",
+							"var postValue = jasonData.args.status;\r",
+							"console.log(postValue);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/get?token={{MyToken}}",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"get"
+					],
+					"query": [
+						{
+							"key": "token",
+							"value": "{{MyToken}}"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

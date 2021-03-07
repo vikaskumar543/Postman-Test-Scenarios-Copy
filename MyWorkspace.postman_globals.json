@@ -1,0 +1,29 @@
+{
+	"id": "5da569c2-aabb-4136-8cf6-082a7f4902ad",
+	"values": [
+		{
+			"key": "url",
+			"value": "https://reqres.in",
+			"enabled": true
+		},
+		{
+			"key": "Username",
+			"value": "vikas",
+			"enabled": true
+		},
+		{
+			"key": "MyToken",
+			"value": "b083dc80-764c-4977-a87e-28271f8a0586",
+			"enabled": true
+		},
+		{
+			"key": "Post status value",
+			"value": "Test post staus for same token {{$timestamp}}",
+			"enabled": true
+		}
+	],
+	"name": "My Workspace Globals",
+	"_postman_variable_scope": "globals",
+	"_postman_exported_at": "2021-03-07T16:52:43.801Z",
+	"_postman_exported_using": "Postman/8.0.6"
+}
